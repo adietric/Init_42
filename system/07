@@ -1,0 +1,2 @@
+pidof sshd
+ps ux | grep ssh | head -1 | cut -d ' ' -f4

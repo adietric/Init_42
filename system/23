@@ -1,0 +1,3 @@
+ssh : Faire un "ssh utilisateur@$HOSTNAME" sur le terminal. Entrer mdp si cela est demande.
+
+graphique : Dans la version graphique, selectionner 'Swith User' et ensuite choisir l'utilisateur sur lequel on souhaite se connecter.

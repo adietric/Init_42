@@ -1,0 +1,118 @@
+#!/bin/bash
+
+j=0
+k=0
+l=0
+
+if [ "$#" -eq 0 ]; then
+read -p "Saisir le répertoire : " rep
+else
+rep=$1
+fi
+cd $rep
+ret=$?
+while [ $ret == 1 ]; do
+clear
+echo -e "\e[1;31mRepertoire invalide!\e[0;37m"
+read -p "Saisir le répertoire (valide) : " rep
+cd $rep
+ret=$?
+done
+
+clear
+
+for i in *; do
+if [ -f "$i" ] && ! [[ -x "$i" ]]; then
+let k=$k+1
+fi
+if [ -x "$i" ] && ! [[ -d "$i" ]]; then
+let l=$l+1
+fi
+if [ -d "$i" ]; then
+let j=$j+1
+fi
+done
+
+echo -e "\e[0;37mIl y a $j \e[1;34mrépertoires\e[0;37m, $k \e[1;37mfichiers \e[0;37met $l \e[1;32mexécutables \e[0;37mdans $rep"
+
+read -p "Voulez vous afficher quelque chose ? [y/n] " rep2
+
+if [ "$rep2" == "y" ]; then
+
+clear
+echo -e "\e[0;37mIl y a $j \e[1;34mrépertoires\e[0;37m, $k \e[1;37mfichiers \e[0;37met $l \e[1;32mexécutables \e[0;37mdans $rep"
+read -p "Quoi  ? [rep/file/exe/all] " rep3
+
+while  [ $rep3 != "all" ] && [ $rep3 != "file" ] && [ $rep3 != "rep" ] && [ $rep3 != "exe" ]; do
+clear
+echo -e "\e[0;37mIl y a $j \e[1;34mrépertoires\e[0;37m, $k \e[1;37mfichiers \e[0;37met $l \e[1;32mexécutables \e[0;37mdans $rep"
+read -p "(error) Quoi  ? [rep/file/exe/all] " rep3
+done
+
+if [ "$rep3" == "all" ]; then
+echo ""
+if [ $k == 0 ] && [ $l == 0 ] && [ $j == 0 ];then
+echo -e "\e[1;31mIl n'y a aucun dossier/fichier/executable!\e[0;37m"
+fi
+for i in *; do
+if [ -f "$i" ] && ! [[ -x "$i" ]]; then
+echo -e "\e[1;37m$i"
+fi
+done
+echo ""
+for i in *; do
+if [ -x "$i" ] && ! [[ -d "$i" ]]; then
+echo -e "\e[1;32m$i"
+fi
+done
+echo ""
+for i in *; do
+if [ -d "$i" ]; then
+echo -e "\e[1;34m$i"
+fi
+done
+echo ""
+fi
+
+if [ "$rep3" == "rep" ]; then
+echo ""
+if [ $j == 0 ];then
+echo -e "\e[1;31mIl n'y a pas de repertoires !\e[0;37m"
+fi
+for i in *; do
+if [ -d "$i" ]; then
+echo -e "\e[1;34m$i"
+fi
+done
+echo ""
+fi
+if [ "$rep3" == "file" ]; then
+echo ""
+if [ $k == 0 ];then
+echo -e "\e[1;31mIl n'y a pas de fichiers!\e[0;37m"
+fi
+for i in *; do
+if [ -f "$i" ] && ! [[ -x "$i" ]]; then
+echo -e "\e[1;37m$i"
+fi
+done
+echo ""
+fi
+if [ "$rep3" == "exe" ]; then
+echo ""
+if [ $l == 0 ];then
+echo -e "\e[1;31mIl n'y a pas d'executables!\e[0;37m"
+fi
+
+for i in *; do
+if [ -x "$i" ] && ! [[ -d "$i" ]]; then
+echo -e "\e[1;32m$i"
+fi
+done
+echo ""
+fi
+fi
+
+if [ "$rep2" == "n" ]; then
+echo "Ok, bye!"
+fi

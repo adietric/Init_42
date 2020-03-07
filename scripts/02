@@ -1,0 +1,35 @@
+#!/bin/bash
+
+echo "Entrer l'utilisateur a supprimer"
+read lin
+vari=$(echo "$(users)" | grep -w $lin)
+if [ ! "$vari" ]
+then 
+	vari=0
+else
+	vari=1
+fi
+while [ $vari != 1 ]
+do
+	echo "Utilisateur introuvable. Reessayer parmi la liste ci-dessous :"
+	echo "$(users)"
+	read lin
+	vari=$(echo $(users) | grep -w $lin) 
+	if [ ! "$vari" ]
+	then 
+		 vari=0
+	 else
+		  vari=1
+	  fi
+  done
+  sudo pkill -u $lin 
+  echo "Suppression des process..."
+  echo "..."
+  echo "..."
+  echo "Done."
+  sudo userdel $lin
+  echo "Suppression de l'utilisateur..."
+  echo "..."
+  echo "..."
+  echo "Done."
+  echo "Bye!"
